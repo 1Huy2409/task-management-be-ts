@@ -3,6 +3,7 @@
         "outDir": "js",
         "target": "ES6",
         "module": "CommonJS", // commonjs là tiêu chuẩn được sử dụng trong nodejs để làm việc với các module
-        "removeComments": true
+        "removeComments": true,
+        "esModuleInterop": true,
     }
 }
