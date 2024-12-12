@@ -79,3 +79,56 @@ export const changeStatus = async (req : Request, res : Response) => {
         )
     }
 }
+export const changeMulti = async (req : Request, res: Response) => {
+    try {
+        const ids : string[] = req.body.ids;
+        const key : string = req.body.key;
+        const value: string = req.body.value
+        switch (key) {
+            case "status":
+            await Task.updateMany(
+                {
+                _id: { $in: ids },
+                },
+                {
+                status: value,
+                }
+            );
+            res.json({
+                code: 200,
+                message: "Change multi status successfully!",
+            });
+            break;
+            case "delete":
+            await Task.updateMany(
+                {
+                _id: { $in: ids },
+                },
+                {
+                deleted: true,
+                deletedAt: new Date(),
+                }
+            );
+            res.json({
+                code: 200,
+                message: "Delete multi task successfully!",
+            });
+            break;
+            default:
+            res.json("Not found");
+        }
+        } catch (error) {
+        res.json({
+            code: 400,
+            message: "Change multi failed!",
+        });
+    }
+}
+export const create = async (req, res) => {
+    try {
+        
+    }
+    catch(error) {
+
+    }
+}
