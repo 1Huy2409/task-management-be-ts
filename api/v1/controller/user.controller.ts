@@ -59,28 +59,11 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 export const detail = async (req: Request, res: Response) => {
-    const id: string = req.params.id;
-    const user = await User.findOne(
-        {
-            _id: id,
-            deleted: false
-        }
-    )
-    if (user) {
-        res.json(
-            {
-                code: 200, 
-                message: "User be founded!",
-                user: user
-            }
-        )
+  res.json(
+    {
+        code: 200, 
+        message: "User be founded!",
+        user: req["user"]
     }
-    else {
-        res.json(
-            {
-                code: 400, 
-                message: "User not be founded!"
-            }
-        )
-    }
-}
+  )
+};
