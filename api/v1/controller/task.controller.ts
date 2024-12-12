@@ -2,6 +2,7 @@ import { Request, Response} from 'express';
 import Task from "../models/task.model";
 import paginationHelper from '../../helper/pagination';
 import searchHelper from '../../helper/search';
+import { rmSync } from 'fs';
 export const index = async (req: Request, res: Response) : Promise<void> => {
     interface Find {
         deleted: boolean,
@@ -124,11 +125,48 @@ export const changeMulti = async (req : Request, res: Response) => {
         });
     }
 }
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
     try {
-        
+        const newTask = new Task(req.body);
+        await newTask.save();
+        res.json(
+            {
+                code: 200, 
+                message: "Create new tasks successfully!",
+                task: newTask
+            }
+        )
+    }
+    catch(error)
+    {
+        res.json(
+            {
+                code: 400, 
+                message: "Create new task failed!"
+            }
+        )
+    }
+}
+export const edit = async (req, res) => {
+    try {
+        const id = req.params.id; 
+        await Task.updateOne(
+            {_id: id},
+            req.body
+        )
+        res.json(
+            {
+                code: 200, 
+                message: "Edit task successfully!"
+            }
+        )
     }
     catch(error) {
-
+        res.json(
+            {
+                code: 400,
+                message: "Edit task failed!"
+            }
+        )
     }
 }
