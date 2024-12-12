@@ -1,17 +1,36 @@
 import { Request, Response} from 'express';
-import Task from "../models/task.model"
+import Task from "../models/task.model";
+import paginationHelper from '../../helper/pagination';
+import searchHelper from '../../helper/search';
 export const index = async (req: Request, res: Response) : Promise<void> => {
-    const find = {
+    interface Find {
+        deleted: boolean,
+        title?: RegExp, 
+        status?: string
+    }
+    const find : Find = {
         deleted: false,
     }
     if (req.query.status) {
-        find["status"] = req.query.status;
+        find.status = req.query.status.toString();
     }
     const sort = {};
     if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey.toString()] = req.query.sortValue;
     }
-    const tasks = await Task.find(find).sort(sort);
+    let paginationObject = {
+        currentPage: 1,
+        limitTasks: 2,
+    };
+    const countTasks = await Task.countDocuments(find);
+    paginationObject = paginationHelper(req.query, paginationObject, countTasks);
+
+    //search helper
+    let objectSearch = searchHelper(req.query);
+    if (objectSearch.regex) {
+    find.title = objectSearch.regex;
+    }
+    const tasks = await Task.find(find).sort(sort).skip(paginationObject["skipTasks"]).limit(paginationObject["limitTasks"]);
     res.json(
         {
             code: 200, 
