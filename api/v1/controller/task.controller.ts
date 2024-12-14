@@ -3,6 +3,7 @@ import Task from "../models/task.model";
 import paginationHelper from '../../helper/pagination';
 import searchHelper from '../../helper/search';
 import { rmSync } from 'fs';
+// [GET] /api/v1/tasks
 export const index = async (req: Request, res: Response) : Promise<void> => {
     interface Find {
         deleted: boolean,
@@ -39,6 +40,7 @@ export const index = async (req: Request, res: Response) : Promise<void> => {
         }
     )
 }
+// [GET] /api/v1/tasks/detail/:id
 export const detail = async (req: Request, res: Response) => {
     const task = await Task.findOne(
         {   _id: req.params.id,
@@ -52,6 +54,7 @@ export const detail = async (req: Request, res: Response) => {
         }
     )
 }
+// [PATCH] /api/v1/tasks/change-status/:id
 export const changeStatus = async (req : Request, res : Response) => {
     try {
         const id = req.params.id;
@@ -80,6 +83,7 @@ export const changeStatus = async (req : Request, res : Response) => {
         )
     }
 }
+// [PATCH] /api/v1/tasks/change-multi
 export const changeMulti = async (req : Request, res: Response) => {
     try {
         enum Key {
@@ -129,6 +133,7 @@ export const changeMulti = async (req : Request, res: Response) => {
         });
     }
 }
+// [POST] /api/v1/tasks/create
 export const create = async (req: Request, res: Response) => {
     try {
         const newTask = new Task(req.body);
@@ -151,6 +156,7 @@ export const create = async (req: Request, res: Response) => {
         )
     }
 }
+// [PATCH] /api/v1/tasks/edit/:id
 export const edit = async (req, res) => {
     try {
         const id = req.params.id; 
@@ -174,6 +180,7 @@ export const edit = async (req, res) => {
         )
     }
 }
+// [DELETE] /api/v1/tasks/delete/:id
 export const deleteTask = async (req : Request, res : Response) => {
     try {
         const id = req.params.id;

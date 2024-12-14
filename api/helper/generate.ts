@@ -1,17 +1,17 @@
 export const generateRandomString = (length: number) : string => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const characters : string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
 
-    for(let i = 0; i < length; i++) {
+    for(let i : number = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random()*characters.length));
     }
     return result;
 }
 export const generateRandomNumber = (length: number) : string => {
-    const characters = "0123456789";
-    let result = "";
+    const characters : string = "0123456789";
+    let result : string = "";
 
-    for(let i = 0; i < length; i++) {
+    for(let i : number = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random()*characters.length));
     }
     return result;
